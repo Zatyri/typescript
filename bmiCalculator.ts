@@ -1,8 +1,27 @@
+interface InputValues {
+    height: number;
+    weight: number;
+}
+
+const inputValidator = (args: Array<String>):InputValues => {
+    if(args.length < 4) throw new Error('Too few arguments')
+    if(args.length > 4) throw new Error('Too many arguments')
+
+    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+        return {
+          height: Number(args[2]),
+          weight: Number(args[3])
+        }
+      } else {
+        throw new Error('Please provide numbers');
+      }
+}
+
 const calculateBmi = (height: number, weight: number):string => {
 
-    const heightMeter = height/100
+    const heightMeter = height/100;
 
-    const bmi = weight/(heightMeter*heightMeter)
+    const bmi = weight/(heightMeter*heightMeter);
 
     if(bmi <= 18.5){
         return `Underweight, bmi: ${bmi}`
@@ -16,7 +35,20 @@ const calculateBmi = (height: number, weight: number):string => {
         return `Overweight—Severely Obese, bmi: ${bmi}`
     } else {
         return `Error in calculation, bmi: ${bmi}`
-    }
+    };
 }
 
-console.log(calculateBmi(180, 74))
+const height: number = Number(process.argv[2]);
+const weight: number = Number(process.argv[3]);
+
+try {
+    const {height, weight} = inputValidator(process.argv);
+    console.log(calculateBmi(height,weight));
+} catch (error){
+    console.log(`Error: ${error.message}`);
+    
+}
+
+
+
+
