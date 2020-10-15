@@ -31,8 +31,8 @@ const calculateExercises = (exercises:Array<number>):ReturnObject => {
         return total + next
     },0);
     const averageTrainingTime = trainingHours/totalDays;
-    let rating: number;
-    let ratingExplanation: string;
+    let rating: number = 0;
+    let ratingExplanation: string = '';
 
     if(averageTrainingTime >= 1 && averageTrainingTime < 2){
         rating = 2
@@ -43,7 +43,7 @@ const calculateExercises = (exercises:Array<number>):ReturnObject => {
     } else if( averageTrainingTime >= 2){
         rating = 3
         ratingExplanation  = 'Excellent'
-    };
+    } ;
 
     const returnValue = {
         periodLength: totalDays,

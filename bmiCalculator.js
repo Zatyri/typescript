@@ -1,5 +1,22 @@
+"use strict";
+var inputValidator = function (args) {
+    if (args.length < 4)
+        throw new Error('Too few arguments');
+    if (args.length > 4)
+        throw new Error('Too many arguments');
+    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+        return {
+            height: Number(args[2]),
+            weight: Number(args[3])
+        };
+    }
+    else {
+        throw new Error('Please provide numbers');
+    }
+};
 var calculateBmi = function (height, weight) {
-    var bmi = weight / height ^ 2;
+    var heightMeter = height / 100;
+    var bmi = weight / (heightMeter * heightMeter);
     if (bmi <= 18.5) {
         return "Underweight, bmi: " + bmi;
     }
@@ -18,5 +35,14 @@ var calculateBmi = function (height, weight) {
     else {
         return "Error in calculation, bmi: " + bmi;
     }
+    ;
 };
-console.log(calculateBmi(180, 74));
+var height = Number(process.argv[2]);
+var weight = Number(process.argv[3]);
+try {
+    var _a = inputValidator(process.argv), height_1 = _a.height, weight_1 = _a.weight;
+    console.log(calculateBmi(height_1, weight_1));
+}
+catch (error) {
+    console.log("Error: " + error.message);
+}
