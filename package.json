@@ -1,0 +1,20 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node",
+    "calculateBmi": "ts-node bmiCalculator.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zatyri/typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zatyri/typescript/issues"
+  },
+  "homepage": "https://github.com/Zatyri/typescript#readme"
+}
