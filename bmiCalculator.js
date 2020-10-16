@@ -1,13 +1,17 @@
 "use strict";
+exports.__esModule = true;
+exports.bmiCalculator = void 0;
 var inputValidator = function (args) {
-    if (args.length < 4)
+    if (typeof (args[0]) !== 'string' && typeof (args[1]) !== 'string')
+        throw new Error('Invalid input');
+    if (args.length < 2)
         throw new Error('Too few arguments');
-    if (args.length > 4)
+    if (args.length > 2)
         throw new Error('Too many arguments');
-    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+    if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
         return {
-            height: Number(args[2]),
-            weight: Number(args[3])
+            height: Number(args[0]),
+            weight: Number(args[1])
         };
     }
     else {
@@ -17,32 +21,43 @@ var inputValidator = function (args) {
 var calculateBmi = function (height, weight) {
     var heightMeter = height / 100;
     var bmi = weight / (heightMeter * heightMeter);
+    var bmitext;
     if (bmi <= 18.5) {
-        return "Underweight, bmi: " + bmi;
+        bmitext = "Underweight, bmi: " + bmi;
     }
     else if (bmi > 18.5 && bmi <= 23) {
-        return "Normal range, bmi: " + bmi;
+        bmitext = "Normal range, bmi: " + bmi;
     }
     else if (bmi > 23 && bmi <= 25) {
-        return "Overweight - At Risk, bmi: " + bmi;
+        bmitext = "Overweight - At Risk, bmi: " + bmi;
     }
     else if (bmi > 25 && bmi <= 30) {
-        return "Overweight\u2014Moderately Obese, bmi: " + bmi;
+        bmitext = "Overweight\u2014Moderately Obese, bmi: " + bmi;
     }
     else if (bmi > 30) {
-        return "Overweight\u2014Severely Obese, bmi: " + bmi;
+        bmitext = "Overweight\u2014Severely Obese, bmi: " + bmi;
     }
     else {
-        return "Error in calculation, bmi: " + bmi;
+        bmitext = "Error in calculation, bmi: " + bmi;
     }
     ;
+    return {
+        weight: weight,
+        height: height,
+        bmi: bmitext
+    };
 };
-var height = Number(process.argv[2]);
-var weight = Number(process.argv[3]);
-try {
-    var _a = inputValidator(process.argv), height_1 = _a.height, weight_1 = _a.weight;
-    console.log(calculateBmi(height_1, weight_1));
-}
-catch (error) {
-    console.log("Error: " + error.message);
-}
+/*
+const height: number = Number(process.argv[2]);
+const weight: number = Number(process.argv[3]);
+*/
+exports.bmiCalculator = function (input) {
+    try {
+        var _a = inputValidator(input), height = _a.height, weight = _a.weight;
+        return calculateBmi(height, weight);
+    }
+    catch (error) {
+        console.log("Error: " + error.message);
+        return;
+    }
+};

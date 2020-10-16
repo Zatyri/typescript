@@ -3,51 +3,70 @@ interface InputValues {
     weight: number;
 }
 
-const inputValidator = (args: Array<String>):InputValues => {
-    if(args.length < 4) throw new Error('Too few arguments')
-    if(args.length > 4) throw new Error('Too many arguments')
+interface returnValue {
+    height: number;
+    weight: number;
+    bmi: string;
+}
 
-    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+const inputValidator = (args: Array<any>):InputValues => {
+    if(typeof(args[0]) !== 'string' && typeof(args[1]) !== 'string') throw new Error('Invalid input')
+    if(args.length < 2) throw new Error('Too few arguments')
+    if(args.length > 2) throw new Error('Too many arguments')
+
+    if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
         return {
-          height: Number(args[2]),
-          weight: Number(args[3])
+          height: Number(args[0]),
+          weight: Number(args[1])
         }
       } else {
         throw new Error('Please provide numbers');
       }
 }
 
-const calculateBmi = (height: number, weight: number):string => {
+const calculateBmi = (height: number, weight: number):returnValue => {
+    
 
     const heightMeter = height/100;
 
     const bmi = weight/(heightMeter*heightMeter);
+    let bmitext: string;  
 
     if(bmi <= 18.5){
-        return `Underweight, bmi: ${bmi}`
-    } else if( bmi > 18.5 && bmi <= 23){
-        return `Normal range, bmi: ${bmi}`
+        bmitext = `Underweight, bmi: ${bmi}`
+    } else if( bmi > 18.5 && bmi <= 23){        
+        bmitext = `Normal range, bmi: ${bmi}`
     } else if ( bmi > 23 && bmi <= 25){
-        return `Overweight - At Risk, bmi: ${bmi}`
+        bmitext = `Overweight - At Risk, bmi: ${bmi}`
     } else if ( bmi > 25 && bmi <= 30 ){
-        return `Overweight—Moderately Obese, bmi: ${bmi}`
+        bmitext = `Overweight—Moderately Obese, bmi: ${bmi}`
     } else if ( bmi > 30){
-        return `Overweight—Severely Obese, bmi: ${bmi}`
+        bmitext = `Overweight—Severely Obese, bmi: ${bmi}`
     } else {
-        return `Error in calculation, bmi: ${bmi}`
+        bmitext = `Error in calculation, bmi: ${bmi}`
     };
+
+    return {
+        weight: weight,
+        height: height,
+        bmi: bmitext
+    }
 }
 
+/*
 const height: number = Number(process.argv[2]);
 const weight: number = Number(process.argv[3]);
-
-try {
-    const {height, weight} = inputValidator(process.argv);
-    console.log(calculateBmi(height,weight));
-} catch (error){
-    console.log(`Error: ${error.message}`);
-    
+*/
+export const bmiCalculator = (input:Array<any>) => {    
+    try {        
+        const {height, weight} = inputValidator(input);
+        return calculateBmi(height,weight);
+    } catch (error){
+        console.log(`Error: ${error.message}`);
+        return
+    }
 }
+
 
 
 
