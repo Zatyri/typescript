@@ -1,19 +1,18 @@
 "use strict";
-var validateInput = function (args) {
-    if (args.length === 2)
+exports.__esModule = true;
+exports.exerciseCalculator = void 0;
+var validateInput = function (args, target) {
+    if (args.length === 0 || target === undefined)
         throw new Error('No arguments');
-    args.shift();
-    args.shift();
+    args.concat(target);
     args.forEach(function (day) {
         if (isNaN(Number(day))) {
             throw new Error('Arguments has to be numbers');
         }
     });
-    return args.map(function (day) { return Number(day); });
+    return true;
 };
-var calculateExercises = function (exercises) {
-    var targetValuePerDay = exercises[0];
-    exercises.shift();
+var calculateExercises = function (exercises, target) {
     var totalDays = exercises.length;
     var trainingDays = exercises.filter(function (day) { return day > 0; }).length;
     var trainingHours = exercises.reduce(function (total, next) {
@@ -34,22 +33,28 @@ var calculateExercises = function (exercises) {
         rating = 3;
         ratingExplanation = 'Excellent';
     }
-    ;
     var returnValue = {
         periodLength: totalDays,
         trainingDays: trainingDays,
-        success: (averageTrainingTime >= targetValuePerDay) ? true : false,
+        success: (averageTrainingTime >= Number(target)) ? true : false,
         rating: rating,
         ratingDescription: ratingExplanation,
-        target: targetValuePerDay,
+        target: Number(target),
         average: averageTrainingTime
     };
     return returnValue;
 };
-try {
-    var input = validateInput(process.argv);
-    console.log(calculateExercises(input));
-}
-catch (error) {
-    console.log("Error: " + error.message);
-}
+exports.exerciseCalculator = function (exercises, target) {
+    try {
+        if (validateInput(exercises, target)) {
+            var exerciseNumber = exercises.map(function (day) { return Number(day); });
+            return calculateExercises(exerciseNumber, target);
+        }
+        return;
+    }
+    catch (error) {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        console.log("Error: " + error);
+        return;
+    }
+};

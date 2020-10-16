@@ -1,6 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.bmiCalculator = void 0;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 var inputValidator = function (args) {
     if (typeof (args[0]) !== 'string' && typeof (args[1]) !== 'string')
         throw new Error('Invalid input');
@@ -40,24 +41,21 @@ var calculateBmi = function (height, weight) {
     else {
         bmitext = "Error in calculation, bmi: " + bmi;
     }
-    ;
     return {
         weight: weight,
         height: height,
         bmi: bmitext
     };
 };
-/*
-const height: number = Number(process.argv[2]);
-const weight: number = Number(process.argv[3]);
-*/
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 exports.bmiCalculator = function (input) {
     try {
         var _a = inputValidator(input), height = _a.height, weight = _a.weight;
         return calculateBmi(height, weight);
     }
     catch (error) {
-        console.log("Error: " + error.message);
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        console.log("Error: " + error);
         return;
     }
 };

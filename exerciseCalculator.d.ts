@@ -7,5 +7,5 @@ interface ReturnObject {
     target: number;
     average: number;
 }
-declare const validateInput: (args: Array<String>) => Array<number>;
-declare const calculateExercises: (exercises: Array<number>) => ReturnObject;
+export declare const exerciseCalculator: (exercises: Array<string>, target: string) => ReturnObject | undefined;
+export {};

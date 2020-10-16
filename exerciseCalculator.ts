@@ -8,60 +8,64 @@ interface ReturnObject {
     average: number;
 }
 
-const validateInput = (args: Array<String>):Array<number> => {    
-    if(args.length === 2) throw new Error('No arguments')
-    args.shift();
-    args.shift();
+const validateInput = (args: Array<string>, target:string):boolean => {    
+    if(args.length === 0 || target === undefined) throw new Error('No arguments');
+    args.concat(target);
     args.forEach(day => {
         if(isNaN(Number(day))){
-            throw new Error('Arguments has to be numbers')
+            throw new Error('Arguments has to be numbers');
         }
     });
 
-    return args.map(day => Number(day))
-}
+    return true;
+};
 
-const calculateExercises = (exercises:Array<number>):ReturnObject => {
-    const targetValuePerDay = exercises[0];    
-    exercises.shift();
+const calculateExercises = (exercises:Array<number>, target: string):ReturnObject => {
+    
     
     const totalDays = exercises.length;
     const trainingDays = exercises.filter(day => day > 0).length;    
     const trainingHours = exercises.reduce((total, next) => {
-        return total + next
+        return total + next;
     },0);
     const averageTrainingTime = trainingHours/totalDays;
-    let rating: number = 0;
-    let ratingExplanation: string = '';
+    let rating = 0;
+    let ratingExplanation = '';
 
     if(averageTrainingTime >= 1 && averageTrainingTime < 2){
-        rating = 2
-        ratingExplanation = 'Good'
+        rating = 2;
+        ratingExplanation = 'Good';
     } else if (averageTrainingTime < 1){
-        rating = 1
-        ratingExplanation = 'Bad'
+        rating = 1;
+        ratingExplanation = 'Bad';
     } else if( averageTrainingTime >= 2){
-        rating = 3
-        ratingExplanation  = 'Excellent'
-    } ;
+        rating = 3;
+        ratingExplanation  = 'Excellent';
+    } 
 
     const returnValue = {
         periodLength: totalDays,
         trainingDays: trainingDays,
-        success: (averageTrainingTime >= targetValuePerDay)? true:false,
+        success: (averageTrainingTime >= Number(target))? true:false,
         rating: rating,
         ratingDescription: ratingExplanation,
-        target: targetValuePerDay,
+        target: Number(target),
         average: averageTrainingTime
     };
 
     return returnValue;
-}
+};
 
-try {
-    const input = validateInput(process.argv);
-    console.log(calculateExercises(input));
-} catch(error){
-    console.log(`Error: ${error.message}`);
-    
-}
+export const exerciseCalculator = (exercises:Array<string>, target:string):ReturnObject | undefined => {
+    try {
+        if(validateInput(exercises, target)){
+            const exerciseNumber:Array<number> = exercises.map(day => Number(day));
+            return calculateExercises(exerciseNumber, target);
+        } 
+        return;
+    } catch(error){
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        console.log(`Error: ${error}`);
+        return;
+    }
+};
