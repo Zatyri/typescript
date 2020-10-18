@@ -13,8 +13,7 @@ app.use('/api/patients', patientsRouter);
 const PORT = 3001;
 
 app.get('/api/ping', (_req, res) => {
-    console.log('i was pinged');
-    res.send('pong'); 
+        res.send('pong'); 
 });
 
 app.listen(PORT, () => {

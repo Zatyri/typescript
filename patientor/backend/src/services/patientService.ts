@@ -1,5 +1,5 @@
 import patientsData from '../../data/patients.json';
-import { patientType, NonSensitivePatient} from '../types';
+import { patientType, NonSensitivePatient, gender} from '../types';
 
 const patients: Array<patientType> = patientsData as Array<patientType>;
 
@@ -18,4 +18,30 @@ const getNonSensitiveData = ():NonSensitivePatient[] => {
     }));
 };
 
-export default {getData, getNonSensitiveData};
+const addData = (name:string, ssn: string, dateOfBirth: string, gender: gender, occupation: string):NonSensitivePatient => {
+    const newPatient:patientType = {
+        id: idGenerator(),
+        name: name,
+        ssn: ssn,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        occupation
+    };
+    const nonSensitivePatient: NonSensitivePatient = {
+        id: idGenerator(),
+        name: name,        
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        occupation
+    };
+
+    patients.push(newPatient);
+
+    return nonSensitivePatient;
+};
+
+const idGenerator = ():string => {
+    return Math.random().toString(36).substr(2, 9);
+};
+
+export default {getData, getNonSensitiveData, addData};
