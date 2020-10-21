@@ -4,13 +4,14 @@ import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../constants';
 import { useStateValue, updatePatient } from '../state';
 import { Header, Icon } from "semantic-ui-react";
+import EntryDetails from './EntryDetails';
 
 
 
 const ShowPatient = () => {
     const {id} = useParams<{id: string}>();
 
-    const [{ patients, diagnosis }, dispatch] = useStateValue();
+    const [{ patients }, dispatch] = useStateValue();
    
 
     React.useEffect(() => {
@@ -18,7 +19,7 @@ const ShowPatient = () => {
             try {   
                 if(!patients[id].ssn){
                     const response = await axios.get(`${apiBaseUrl}/patients/${id}`);
-                    dispatch(updatePatient(response.data))
+                    dispatch(updatePatient(response.data));
                 }   
             } catch (error) {
                 console.log(error);            
@@ -50,15 +51,10 @@ const ShowPatient = () => {
             <p>ssn: {patients[id].ssn}</p>
             <p>occupation: {patients[id].occupation}</p>
             <h4>entries</h4>
-            {patients[id].entries?.map(entry => (
-                <div key={entry.id}>
-                <p>{entry.date} {entry.description}</p>
-                <ul>
-                    {entry.diagnosisCodes?.map(diagnoseCode => (
-                        <li key={diagnoseCode}>{diagnoseCode} {diagnosis.find(diagnose => diagnose.code === diagnoseCode)?.name}</li>
-                    ))}
-                </ul>
-                </div>
+            
+            
+            {patients[id].entries?.map(entry => (                
+                <EntryDetails key={entry.id} entry={entry} />                
             ))}
         </>
     );
