@@ -24,7 +24,7 @@ const ShowPatient = () => {
             }
         };
         getPatient();
-    },[id, patients]);
+    },[id, patients, dispatch]);
 
     
 
