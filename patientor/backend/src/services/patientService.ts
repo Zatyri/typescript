@@ -18,6 +18,10 @@ const getNonSensitiveData = ():NonSensitivePatient[] => {
     }));
 };
 
+const getPatient = (id:string): patientType |undefined => {
+    return patients.find(patient => patient.id === id);
+};
+
 const addData = (name:string, ssn: string, dateOfBirth: string, gender: gender, occupation: string):NonSensitivePatient => {
     const newPatient:patientType = {
         id: idGenerator(),
@@ -25,7 +29,8 @@ const addData = (name:string, ssn: string, dateOfBirth: string, gender: gender, 
         ssn: ssn,
         dateOfBirth: dateOfBirth,
         gender: gender,
-        occupation
+        occupation: occupation,
+        entries: []
     };
     const nonSensitivePatient: NonSensitivePatient = {
         id: idGenerator(),
@@ -44,4 +49,4 @@ const idGenerator = ():string => {
     return Math.random().toString(36).substr(2, 9);
 };
 
-export default {getData, getNonSensitiveData, addData};
+export default {getData, getNonSensitiveData, getPatient, addData};

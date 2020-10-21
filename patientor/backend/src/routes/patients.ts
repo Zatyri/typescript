@@ -8,6 +8,13 @@ router.get('/', (_req, res) => {
     res.send(patietnService.getNonSensitiveData());
 });
 
+router.get('/:id', (req, res) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const id = req.params.id;   
+    const patient = patietnService.getPatient(id);
+    res.json(patient);
+});
+
 router.post('/', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const {name, ssn, dateOfBirth, gender, occupation} = req.body;
