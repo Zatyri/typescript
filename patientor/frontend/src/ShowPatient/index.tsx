@@ -10,7 +10,8 @@ import { Header, Icon } from "semantic-ui-react";
 const ShowPatient = () => {
     const {id} = useParams<{id: string}>();
 
-    const [{ patients }, dispatch] = useStateValue();
+    const [{ patients, diagnosis }, dispatch] = useStateValue();
+   
 
     React.useEffect(() => {
         const getPatient = async () => {
@@ -53,8 +54,8 @@ const ShowPatient = () => {
                 <div key={entry.id}>
                 <p>{entry.date} {entry.description}</p>
                 <ul>
-                    {entry.diagnosisCodes?.map(diagnosis => (
-                        <li key={diagnosis}>{diagnosis}</li>
+                    {entry.diagnosisCodes?.map(diagnoseCode => (
+                        <li key={diagnoseCode}>{diagnoseCode} {diagnosis.find(diagnose => diagnose.code === diagnoseCode)?.name}</li>
                     ))}
                 </ul>
                 </div>
