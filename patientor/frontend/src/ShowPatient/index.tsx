@@ -48,6 +48,17 @@ const ShowPatient = () => {
             <Header>{patients[id].name} <Icon name={genderIcon()} /></Header>
             <p>ssn: {patients[id].ssn}</p>
             <p>occupation: {patients[id].occupation}</p>
+            <h4>entries</h4>
+            {patients[id].entries?.map(entry => (
+                <div key={entry.id}>
+                <p>{entry.date} {entry.description}</p>
+                <ul>
+                    {entry.diagnosisCodes?.map(diagnosis => (
+                        <li key={diagnosis}>{diagnosis}</li>
+                    ))}
+                </ul>
+                </div>
+            ))}
         </>
     );
 };

@@ -1,10 +1,10 @@
-import patientsData from '../../data/patients.json';
-import { patientType, NonSensitivePatient, gender} from '../types';
+import patientsData from '../../data/patients';
+import { Patient, NonSensitivePatient, Gender} from '../types';
 
-const patients: Array<patientType> = patientsData as Array<patientType>;
+const patients: Array<Patient> = patientsData;
 
 
-const getData = ():Array<patientType> => {
+const getData = ():Array<Patient> => {
     return patients;
 };
 
@@ -18,12 +18,12 @@ const getNonSensitiveData = ():NonSensitivePatient[] => {
     }));
 };
 
-const getPatient = (id:string): patientType |undefined => {
+const getPatient = (id:string): Patient | undefined => {    
     return patients.find(patient => patient.id === id);
 };
 
-const addData = (name:string, ssn: string, dateOfBirth: string, gender: gender, occupation: string):NonSensitivePatient => {
-    const newPatient:patientType = {
+const addData = (name:string, ssn: string, dateOfBirth: string, gender: Gender, occupation: string):NonSensitivePatient => {
+    const newPatient:Patient = {
         id: idGenerator(),
         name: name,
         ssn: ssn,

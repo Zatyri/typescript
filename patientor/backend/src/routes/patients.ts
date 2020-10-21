@@ -1,6 +1,6 @@
 import express from 'express';
 import patietnService from '../services/patientService';
-import {gender} from '../types';
+import {Gender} from '../types';
 
 const router = express.Router();
 
@@ -11,7 +11,10 @@ router.get('/', (_req, res) => {
 router.get('/:id', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const id = req.params.id;   
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const patient = patietnService.getPatient(id);
+    console.log(patient);
+    
     res.json(patient);
 });
 
@@ -35,14 +38,14 @@ const validateInputString = (input:unknown): string => {
     return input;
 };
 
-const validateGender = (input:unknown): gender => {
+const validateGender = (input:unknown): Gender => {
     if(!input || typeof(input) !== 'string'){
         throw new Error('Incorrect or missing input');
     }
     if(!['male', 'female', 'other'].includes(input)){
         throw new Error('Incorrect or missing input');
     }
-    return input as gender;
+    return input as Gender;
 };
 
 export default router;
