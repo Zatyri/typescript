@@ -12,8 +12,7 @@ router.get('/:id', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const id = req.params.id;   
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const patient = patietnService.getPatient(id);
-    console.log(patient);
+    const patient = patietnService.getPatient(id);    
     
     res.json(patient);
 });
